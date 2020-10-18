@@ -1,0 +1,14 @@
+Borrar -> Se tienen que generar lógicamente:
+Saldo
+Monto del mensual
+Monto periódico
+Monto esperado hoy
+Monto total pagado (sum pagos en tabla de pagos)
+Estatus
+Saldo
+Saldo vencido
+Num_pagos_requeridos
+Num_pagos_realizados
+Num_pagos_restantes
+Fecha_ultimo pago
+fecha próximo pago

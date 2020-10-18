@@ -1,0 +1,97 @@
+.login-page {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url(/images/edificios.jpg);
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+}
+
+.search-page {
+  background-color: white;
+  /*background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url(/html/css/images/backgrounds/pattern.jpg);*/
+  height: 100vh;
+  /*background-size: cover;
+  background-position: center;*/
+}
+
+.search-field {
+  font-size: smaller;
+}
+
+.titulos {
+  color: white;
+}
+
+.descripcion {
+  color: hsl(0, 0%, 100%);
+  font-weight: lighter;
+}
+
+.custome-text {
+  color: white;
+  font-weight: normal;
+  max-width: 100%;
+}
+
+.input-box {
+  background: hsla(249, 47%, 26%, 0.9);
+  max-width: max-content;
+  max-height: max-content;
+  padding: 10px;
+  margin: 0 auto 100px;
+  position: relative;
+}
+
+.footer {
+  background: rgb(40, 140, 200);
+}
+
+.credenciales {
+  width: 100%;
+  border: blueviolet;
+  margin: 0 0 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: justify;
+}
+
+.dp {
+  width: 100%;
+  height: 100%;
+  font-size: small;
+  font-weight: bold;
+  padding-right: 5px;
+}
+
+.display {
+  box-sizing: content-box;
+  border: blueviolet;
+  margin: 0 0 10px;
+  text-align: left;
+  padding: 2px;
+}
+
+.entrada {
+  width: 100%;
+  border: blueviolet;
+  margin: 0 0 10px;
+  text-align: justify;
+  font-size: smaller;
+}
+
+.enviar {
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  background: #599cff;
+  border: 0;
+  padding: 5px;
+  text-align: center;
+}
+
+.enviar:hover,
+.enviar:active {
+  background: #4caf50;
+}
