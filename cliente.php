@@ -100,7 +100,7 @@ if (isset($_POST['agregarCuenta']))
                     </td>
                     <td>
                         <span style="font-size: small; padding-right:5px">Fecha de nacimiento:</span><input class="dp"
-                            disabled value="<?php echo $dob ?>">
+                            disabled value="<?php echo date("d/m/y", strtotime($dob)) ?>">
                     </td>
                 </tr>
             </tbody>

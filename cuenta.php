@@ -112,13 +112,13 @@ date_default_timezone_set("America/Mexico_City");
                         <label style="font-weight: bold">
                             Fecha de solicitud
                         </label>
-                        <span> <?php echo $rowCuenta['fecha_solicitud'] ?></span>
+                        <span> <?php echo date("d/m/y", strtotime($rowCuenta['fecha_solicitud'])) ?></span>
                     </td>
                     <td>
                         <label style="font-weight: bold">
                             Fecha de aprobación
                         </label>
-                        <span> <?php echo $rowCuenta['fecha_aprobacion'] ?></span>
+                        <span> <?php echo date("d/m/y", strtotime($rowCuenta['fecha_aprobacion'])) ?></span>
                     </td>
                     <td>
                         <label style="font-weight: bold">
