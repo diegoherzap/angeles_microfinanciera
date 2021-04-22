@@ -1,6 +1,7 @@
 <?php
 session_start();
 require('dbConnection/config.php');
+//die($_SESSION['uid']);
 if (isset($_SESSION['uid'])) {
     header("location: inicio.php");
 }
