@@ -36,7 +36,7 @@ if (isset($_SESSION['uid'])) {
             <div class="col-md-12">
                 <header>
                     <h1 class="titulos">
-                        <img title="AMF" src="/angeles_microfinanciera/images/amf_logo_main.png" alt="AMF">
+                        <img title="AMF" src="./images/amf_logo_main.png" alt="AMF">
                         Bienvenid@ a AdmiCredit
                     </h1>
                     <h6 class="descripcion">
