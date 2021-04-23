@@ -1,6 +1,8 @@
 <?php
 session_start();
 date_default_timezone_set("America/Mexico_City");
+$dinero = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
+require "dbConnection/config.php";
 ?>
 
 <!DOCTYPE html>
@@ -53,13 +55,23 @@ date_default_timezone_set("America/Mexico_City");
         </li>
 
     </nav>
-
+    <?php
+    function resultToArray($resultado)
+        {
+            $rows = array();
+            while ($row = $resultado->fetch_assoc()) {
+                $rows[] = $row;
+            }
+            return $rows;
+        }
+        
+        ?>
     <div class="container">
         <div class="row">
             <h1>Reporte de cuentas morosas</h1>
         </div>
         <div class="row">
-            <table class="col-md-12 table-borderless table-sm table">
+            <table class="col-md-12 table-bordered table-sm table">
                 <thead>
                     <tr>
                         <th># Cuenta</th>
@@ -110,28 +122,6 @@ date_default_timezone_set("America/Mexico_City");
                         </td>
                         <td style="font-weight:bold">$3,781.67
                         </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
                     </tr>
                 </tbody>
             </table>

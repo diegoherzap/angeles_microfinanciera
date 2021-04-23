@@ -43,17 +43,17 @@ if (isset($_POST['agregarCuenta']))
     $colonia = strtoupper($rowCliente['colonia']);
     $ciudad = strtoupper($rowCliente['ciudad']);
     $estado = strtoupper($rowCliente['estado']);
-    $telefono = $rowCliente['telefono_1'];
-    $telefono2 = $rowCliente['telefono_2'];
+    $telefono1 = $rowCliente['telefono1'];
+    $telefono2 = $rowCliente['telefono1'];
     $dob = $rowCliente['fecha_nacimiento'];
     $curpCAPS = strtoupper($lifeId);
     ?>
     <!-- Tabla con los datos del cliente-->
     <div style="padding-top: 15px; padding-bottom: 15px">
-        <table class="table-sm" style="width: 100%">
+        <table class="table table-bordered">
             <tbody>
                 <tr>
-                    <td><span style="font-size: small; padding-right:5px">Nombre(s):</span><input class="dp" disabled
+                    <td><span style="font-size: small; padding-right:5px"> Nombre(s):</span><input disabled
                             value=<?php echo $nombre ?>></td>
 
                     <td><span style="font-size: small; padding-right:5px">Apellido Paterno:</span><input class="dp"
@@ -85,7 +85,7 @@ if (isset($_POST['agregarCuenta']))
 
                     <td>
                         <span style="font-size: small; padding-right:5px">Teléfono principal:</span><input class="dp"
-                            disabled value="<?php echo $telefono ?>">
+                            disabled value="<?php echo $telefono1 ?>">
                     </td>
                 </tr>
                 <tr>
@@ -100,7 +100,7 @@ if (isset($_POST['agregarCuenta']))
                     </td>
                     <td>
                         <span style="font-size: small; padding-right:5px">Fecha de nacimiento:</span><input class="dp"
-                            disabled value="<?php echo date("d/m/y", strtotime($dob)) ?>">
+                            disabled value="<?php echo date("d/m/Y", strtotime($dob)) ?>">
                     </td>
                 </tr>
             </tbody>

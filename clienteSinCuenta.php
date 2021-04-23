@@ -83,7 +83,7 @@ if (isset($_POST['agregarCuenta']))
 
                     <td>
                         <span style="font-size: small; padding-right:5px">Teléfono principal:</span><input class="dp"
-                            disabled value="<?php echo $telefono; ?>">
+                            disabled value="<?php echo $telefono1; ?>">
                     </td>
                 </tr>
                 <tr>

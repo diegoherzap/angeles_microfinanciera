@@ -122,14 +122,14 @@ require "dbConnection/config.php";
         $telefono1 = $_POST['telefono1'];
         $telefono2 = $_POST['telefono2'];
         $fechaNacimiento = $_POST['fechaNacimiento'];
-        $lineaCredito = $_POST['lineaCredito'];
+        /*$lineaCredito = $_POST['lineaCredito'];
         $mensualidades = $_POST['mensualidades'];
         $periodicidad = $_POST['periodicidad'];
         $fechaSolicitud = $_POST['fechaSolicitud'];
         $fechaAprobacion = $_POST['fechaAprobacion'];
-        $active = $_POST['active'];
+        $active = $_POST['active'];*/
 
-        $sqlAgregarCliente = "INSERT INTO clientes(curp, nombre, apellido_paterno, apellido_materno, domicilio, cp, colonia, ciudad, estado, telefono_1, telefono_2, fecha_nacimiento) VALUES ('$curp','$nombre','$apellidoPat','$apellidoMat','$domicilio','$cp','$colonia','$ciudad','$estado','$telefono1','$telefono2','$fechaNacimiento')";
+        $sqlAgregarCliente = "INSERT INTO clientes (curp, nombre, apellido_paterno, apellido_materno, domicilio, cp, colonia, ciudad, estado, telefono1, telefono2, fecha_nacimiento) VALUES ('$curp','$nombre','$apellidoPat','$apellidoMat','$domicilio','$cp','$colonia','$ciudad','$estado','$telefono1','$telefono2','$fechaNacimiento')";
         if (!mysqli_query($conn, $sqlAgregarCliente)) {
             die('Error: ' . mysqli_error($conn));
         } else {

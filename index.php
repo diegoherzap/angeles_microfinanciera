@@ -1,9 +1,10 @@
 <?php
 session_start();
 require('dbConnection/config.php');
+/*echo $_SESSION['uid'];
 if (isset($_SESSION['uid'])) {
     header("location: inicio.php");
-}
+}*/
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +14,7 @@ if (isset($_SESSION['uid'])) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - AdmiCredit 1.0</title>
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/angeles_microfinanciera/css/style.css" />
     <script src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
@@ -35,7 +36,7 @@ if (isset($_SESSION['uid'])) {
             <div class="col-md-12">
                 <header>
                     <h1 class="titulos">
-                        <img title="AMF" src="/images/amf_logo_main.png" alt="AMF">
+                        <img title="AMF" src="/angeles_microfinanciera/images/amf_logo_main.png" alt="AMF">
                         Bienvenid@ a AdmiCredit
                     </h1>
                     <h6 class="descripcion">
@@ -59,7 +60,7 @@ if (isset($_SESSION['uid'])) {
                     <button class="btn btn-primary" name="enviar" style="width: 100%" type="submit"
                         value="Enviar">Entrar</button>
                     <span>
-                        <a href="/amf/recuperar-contrasena.html">¿Olvidaste tu contraseña?</a>
+                        <a href="/angeles_microfinanciera/recuperar-contrasena.html">¿Olvidaste tu contraseña?</a>
                     </span>
                 </div>
             </form>
@@ -71,6 +72,7 @@ if (isset($_SESSION['uid'])) {
         $pwd = $_POST['password'];
 
         $sql = "SELECT * FROM users WHERE username = '$unm' AND password = '$pwd'";
+        echo $sql;
         $sql_run = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($sql_run) > 0) {

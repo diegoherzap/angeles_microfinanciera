@@ -131,9 +131,9 @@ date_default_timezone_set("America/Mexico_City");
                                 $acct = $rowsTodasLasCuentas[0]['id_cuenta'];
                                 $_SESSION['account'] = $acct;
                             }
-                            echo "<main role='main' class='iframe-container col-md-9 ml-sm-auto col-lg-10 px-4'>";
+                            echo "<main role='main' class='iframe-container col-md-9 ml-sm-auto col-lg-10' px-4>";
                             echo "<div class='results-box style='padding-left: 15px;'>";
-                            echo "<iframe frameborder='0' style='padding: 15px; width: 100%; height: 350%' scrolling='no' src='cliente.php'>";
+                            echo "<iframe frameborder='0' style='padding: 15px; width: 100%; height: 360%' scrolling='no' src='cliente.php'>";
                             echo "</iframe></div></main>";
                         } else {
                             $_SESSION['lifeId'] = $curp;
