@@ -14,7 +14,7 @@ if (isset($_SESSION['uid'])) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - AdmiCredit 1.0</title>
-    <link rel="stylesheet" href="/angeles_microfinanciera/css/style.css" />
+    <link rel="stylesheet" href="./css/style.css" />
     <script src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
@@ -60,7 +60,7 @@ if (isset($_SESSION['uid'])) {
                     <button class="btn btn-primary" name="enviar" style="width: 100%" type="submit"
                         value="Enviar">Entrar</button>
                     <span>
-                        <a href="/angeles_microfinanciera/recuperar-contrasena.html">¿Olvidaste tu contraseña?</a>
+                        <a href="./recuperar-contrasena.html">¿Olvidaste tu contraseña?</a>
                     </span>
                 </div>
             </form>
