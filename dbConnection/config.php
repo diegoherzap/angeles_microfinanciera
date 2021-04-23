@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
-$username = "root";
-$password = "";
+$username = "admin";
+$password = "ExamenEXOAL2021";
 $dbname = "amf";
 
 // Create connection
