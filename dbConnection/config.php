@@ -1,7 +1,7 @@
 <?php
-$servername = "localhost";
-$username = "admin";
-$password = "exoalisoftdahz2020";
+$servername = "localhost:3306";
+$username = "examenexoal2021";
+$password = "examenexoal2021";
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password) or die("Connection failed: " . mysqli_connect_error());
