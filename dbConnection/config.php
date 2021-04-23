@@ -1,5 +1,5 @@
 <?php
-$servername = "localhost:3306";
+$servername = "amf.admicredit.com";
 $username = "examenexoal2021";
 $password = "examenexoal2021";
 
