@@ -1,5 +1,5 @@
 <?php
-$servername = "localhost:3306";
+$servername = "localhost";
 $username = "admin";
 $password = "ExamenEXOAL2021";
 $dbname = "amf";
