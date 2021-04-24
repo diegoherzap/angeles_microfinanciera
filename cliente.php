@@ -53,7 +53,7 @@ if (isset($_POST['agregarCuenta']))
         <table class="table table-bordered">
             <tbody>
                 <tr>
-                    <td><span style="font-size: small; padding-right:5px"> Nombre(s):</span><input disabled
+                    <td><span style="font-size: small; padding-left:5px"> Nombre(s):</span><input disabled
                             value=<?php echo $nombre ?>></td>
 
                     <td><span style="font-size: small; padding-right:5px">Apellido Paterno:</span><input class="dp"
