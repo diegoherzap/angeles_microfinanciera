@@ -14,7 +14,7 @@ if (isset($_POST['agregarCuenta']))
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cliente Sin Cuenta - AdmiCredit 1.0</title>
-    <link rel="stylesheet" href="/html/css/style.css" />
+    <link rel="stylesheet" href="./css/style.css" />
     <script src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
@@ -41,8 +41,8 @@ if (isset($_POST['agregarCuenta']))
     $colonia = strtoupper($rowCliente['colonia']);
     $ciudad = strtoupper($rowCliente['ciudad']);
     $estado = strtoupper($rowCliente['estado']);
-    $telefono = $rowCliente['telefono_1'];
-    $telefono2 = $rowCliente['telefono_2'];
+    $telefono1 = $rowCliente['telefono1'];
+    $telefono2 = $rowCliente['telefono2'];
     $dob = $rowCliente['fecha_nacimiento'];
     $curpCAPS = strtoupper($lifeId);
     ?>

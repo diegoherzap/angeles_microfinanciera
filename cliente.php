@@ -14,7 +14,7 @@ if (isset($_POST['agregarCuenta']))
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cliente - AdmiCredit 1.0</title>
-    <link rel="stylesheet" href="/html/css/style.css" />
+    <link rel="stylesheet" href="./css/style.css" />
     <script src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
@@ -53,8 +53,8 @@ if (isset($_POST['agregarCuenta']))
         <table class="table table-bordered">
             <tbody>
                 <tr>
-                    <td><span style="font-size: small; padding-left:5px"> Nombre(s):</span><input disabled
-                            value=<?php echo $nombre ?>></td>
+                    <td><span style="font-size: small; padding-right:5px"> Nombre(s):</span><input class="dp"
+                            disabled value=<?php echo $nombre ?>></td>
 
                     <td><span style="font-size: small; padding-right:5px">Apellido Paterno:</span><input class="dp"
                             disabled value="<?php echo $apellidoPat ?>"></td>
@@ -165,7 +165,7 @@ if (isset($_POST['agregarCuenta']))
         <?php
         if (isset($_SESSION['selectedAccount'])) {
             echo "<div>
-                <iframe frameborder='1' style='width: 100%; height: 100%' src='cuenta.php' scrolling='no'></iframe>
+                <iframe frameborder='1' style='width: 100%;' src='cuenta.php' scrolling='yes'></iframe>
                 </div>";
         }
         ?>

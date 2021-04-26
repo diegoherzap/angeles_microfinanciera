@@ -1,10 +1,26 @@
 <?php
 session_start();
-$_SESSION['account'] = "";
-$_SESSION['lifeId'] = "";
+/*$_SESSION['account'];
+$_SESSION['lifeId'];*/
 $dinero = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
 require "dbConnection/config.php";
 date_default_timezone_set("America/Mexico_City");
+
+if (isset($_POST['agregarCliente'])) {
+    header("location:nuevoCliente.php");
+}
+if (isset($_POST['reporteCuentasMorosas'])) {
+    header("location:reporteCuentasMorosas.php");
+}
+
+function resultToArray($resultado)
+{
+    $rows = array();
+    while ($row = $resultado->fetch_assoc()) {
+        $rows[] = $row;
+    }
+    return $rows;
+}
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +30,7 @@ date_default_timezone_set("America/Mexico_City");
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Inicio - AdmiCredit 1.0</title>
-    <link rel="stylesheet" href="/html/css/style.css" />
+    <link rel="stylesheet" href="./css/style.css" />
     <script src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
@@ -69,90 +85,74 @@ date_default_timezone_set("America/Mexico_City");
                             Cliente</button>
                     </form>
                 </div>
-            </nav>
+                <?php                    
+                    $rowsTodasLasCuentas = array();
 
-            <?php
-            $curp = "";
-            if (isset($_POST['search_client'])) {
-                $cuentaCurp = $_POST['cuentaCurp'];
-                if (strlen($cuentaCurp) == 10) {
-                    $_SESSION['account'] = $cuentaCurp;
-                    $acct = $_SESSION['account'];
-                    $sqlCuenta = "SELECT * FROM cuentas WHERE id_cuenta ='$acct'";
+                    if (isset($_POST['search_client'])){
+                        $cuentaCurp = $_POST['cuentaCurp'];
+                        if (strlen($cuentaCurp) == 10) {
+                            $_SESSION['account'] = $cuentaCurp;
+                            $acct = $_SESSION['account'];
+                            $sqlCuenta = "SELECT * FROM cuentas WHERE id_cuenta ='$acct'";
 
-                    $sqlRunCuenta = mysqli_query($conn, $sqlCuenta);
-                    $rowCuenta = mysqli_fetch_array($sqlRunCuenta);
-                    if ($rowCuenta == 0) {
-                        echo "<div class='container-fluid'>
-                <section class='row'>
-                <div class='alert alert-danger col-md-12' role='alert'>
-                El número de cuenta no existe, inténtalo de nuevo</div>
-                </section>";
-                    } else {
-                        $curp = $rowCuenta['curp'];
-                        $_SESSION['lifeId'] = $curp;
-                    }
-                } else if (strlen($cuentaCurp) == 18) {
-                    $curp = $cuentaCurp;
-                    $_SESSION['lifeId'] = $curp;
-                } else {
-                    echo "<div class='container-fluid'>
-                <section class='row'>
-                <div class='alert alert-danger col-md-12' role='alert'>
-                Por favor ingrese un número de cuenta a 10 dígitos o una CURP de 18 caracteres</div>
-                </section>";
-                }
-                if ($curp !== "") {
-                    $sqlCliente = "SELECT * FROM clientes WHERE curp = '$curp'";
-                    $sqlRunCliente = mysqli_query($conn, $sqlCliente);
-                    if ($sqlRunCliente->num_rows == 0) {
-
-                        echo "<div class='container-fluid'>
-                <section class='row'>
-                <div class='alert alert-danger col-md-12' role='alert'>
-                La CURP no existe, inténtalo de nuevo o registra a un nuevo cliente</div>
-                </section>";
-                    } else {
-                        $sqlCurp = "SELECT * FROM cuentas WHERE curp = '$curp'";
-                        $sqlRunCurp = mysqli_query($conn, $sqlCurp);
-                        function resultToArray($resultado)
-                        {
-                            $rows = array();
-                            while ($row = $resultado->fetch_assoc()) {
-                                $rows[] = $row;
+                            $sqlRunCuenta = mysqli_query($conn, $sqlCuenta);
+                            $rowCuenta = mysqli_fetch_array($sqlRunCuenta);
+                            if ($rowCuenta == 0) {
+                                echo "<div class='container-fluid'>
+                        <section class='row'>
+                        <div class='alert alert-danger col-md-12' role='alert'>
+                        El número de cuenta no existe, inténtalo de nuevo</div>
+                        </section>";
+                            } else {
+                                $curp = $rowCuenta['curp'];
+                                $_SESSION['lifeId'] = $curp;
                             }
-                            return $rows;
-                        }
-
-                        $rowsTodasLasCuentas = resultToArray($sqlRunCurp);
-
-                        if ($rowsTodasLasCuentas != null) {
-                            if (strlen($cuentaCurp) == 18) {
-                                $acct = $rowsTodasLasCuentas[0]['id_cuenta'];
-                                $_SESSION['account'] = $acct;
-                            }
-                            echo "<main role='main' class='iframe-container col-md-9 ml-sm-auto col-lg-10' px-4>";
-                            echo "<div class='results-box style='padding-left: 15px;'>";
-                            echo "<iframe frameborder='0' style='padding: 15px; width: 100%; height: 360%' scrolling='no' src='cliente.php'>";
-                            echo "</iframe></div></main>";
-                        } else {
+                        } else if (strlen($cuentaCurp) == 18) {
+                            $curp = $cuentaCurp;
                             $_SESSION['lifeId'] = $curp;
-                            echo "<main role='main' class='iframe-container col-md-9 ml-sm-auto col-lg-10 px-4'>";
-                            echo "<div class='results-box style='padding-left: 15px; width: 100%; min-height: 100%'>";
-                            echo "<iframe frameborder='0' style='padding: 15px; width: 100%; height:500%' scrolling='no' src='clienteSinCuenta.php'>";
-                            echo "</iframe></div></main>";
+                        } else {
+                            echo "<div class='container-fluid'>
+                            <section class='row'>
+                            <div class='alert alert-danger col-md-12' role='alert'>
+                            Por favor ingrese un número de cuenta a 10 dígitos o una CURP de 18 caracteres</div>
+                            </section>";
                         }
+                        if (!empty($curp)) {
+                            $sqlCliente = "SELECT * FROM clientes WHERE curp = '$curp'";
+                            $sqlRunCliente = mysqli_query($conn, $sqlCliente);
+                            if ($sqlRunCliente->num_rows == 0) {
+
+                                echo "<div class='container-fluid'>
+                                <section class='row'>
+                                <div class='alert alert-danger col-md-12' role='alert'>
+                                La CURP no existe, inténtalo de nuevo o registra a un nuevo cliente</div>
+                                </section>";
+                            } else {
+                                $sqlCurp = "SELECT * FROM cuentas WHERE curp = '$curp'";
+                                $sqlRunCurp = mysqli_query($conn, $sqlCurp);
+                                $rowsTodasLasCuentas = resultToArray($sqlRunCurp);
+                                if (!empty($rowsTodasLasCuentas)) {
+                                    if (strlen($cuentaCurp) == 18) {
+                                        $acct = $rowsTodasLasCuentas[0]['id_cuenta'];
+                                        $_SESSION['account'] = $acct;
+                                    }
+                                    echo "</nav><main role='main' class='iframe-container col-md-9 ml-sm-auto col-lg-10' px-4>";
+                                    echo "<div style='padding-left: 15px; height=100%'>";
+                                    echo "<iframe frameborder='0' style='padding: 15px; width: 100%; height: 360%' scrolling='no' src='cliente.php'>";
+                                    echo "</iframe></div></main>";
+                                } else {
+                                    $_SESSION['lifeId'] = $curp;
+                                    echo "</nav><main role='main' class='iframe-container col-md-9 ml-sm-auto col-lg-10 px-4'>";
+                                    echo "<div class='results-box style='padding-left: 15px; width: 100%; min-height: 100%'>";
+                                    echo "<iframe frameborder='0' style='padding: 15px; width: 100%; height:500%' scrolling='no' src='clienteSinCuenta.php'>";
+                                    echo "</iframe></div></main>";
+                                }
+                            }
+                        }
+                        
                     }
-                }
-            }
-            //}
-            if (isset($_POST['agregarCliente'])) {
-                header("location:nuevoCliente.php");
-            }
-            if (isset($_POST['reporteCuentasMorosas'])) {
-                header("location:reporteCuentasMorosas.php");
-            }
-            ?>
+                ?>
+        </nav>
         </div>
         <div class="row">
             <nav class="col-md-2 d-none d-md-block bg-light sidebar"
@@ -178,5 +178,4 @@ date_default_timezone_set("America/Mexico_City");
         </section>
     </div>
 </body>
-
 </html>
