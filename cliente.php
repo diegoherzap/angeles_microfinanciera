@@ -112,7 +112,6 @@ if (isset($_POST['agregarCuenta']))
     </div>
 
     <div>
-
         <?php
 
         function resultToArray($resultado)
@@ -164,9 +163,7 @@ if (isset($_POST['agregarCuenta']))
     <div>
         <?php
         if (isset($_SESSION['selectedAccount'])) {
-            echo "<div>
-                <iframe frameborder='1' style='width: 100%;' src='cuenta.php' scrolling='yes'></iframe>
-                </div>";
+            echo "<iframe frameborder='0' style='width: 100%; height: 100%;' src='cuenta.php'></iframe>";
         }
         ?>
     </div>

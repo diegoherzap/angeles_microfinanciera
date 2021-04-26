@@ -70,7 +70,7 @@ function resultToArray($resultado)
 
     </nav>
     <div class="container-fluid">
-        <div class="row">
+        <div class="row" style="height: 100%;">
             <nav class="col-md-2 d-none d-md-block bg-light sidebar"
                 style="border-bottom: 1px solid lightgray; border-right: 1px solid lightgray">
                 <div>
@@ -83,6 +83,11 @@ function resultToArray($resultado)
                     <form action="inicio.php" method="POST">
                         <button style="width:100%" type="submit" name="agregarCliente" class="btn btn-success">Agregar
                             Cliente</button>
+                    </form>
+                    <form action="inicio.php" method="POST">
+                        <button style="width:100%" type="submit" name="reporteCuentasMorosas"
+                            class="btn btn-success">Generar
+                            Reporte</button>
                     </form>
                 </div>
                 <?php                    
@@ -137,14 +142,14 @@ function resultToArray($resultado)
                                         $_SESSION['account'] = $acct;
                                     }
                                     echo "</nav><main role='main' class='iframe-container col-md-9 ml-sm-auto col-lg-10' px-4>";
-                                    echo "<div style='padding-left: 15px; height=100%'>";
-                                    echo "<iframe frameborder='0' style='padding: 15px; width: 100%; height: 360%' scrolling='no' src='cliente.php'>";
+                                    echo "<div style='padding-left: 15px; height: 100%'>";
+                                    echo "<iframe frameborder='0' style='padding: 15px; width: 100%; height: 100%' scrolling='no' src='cliente.php'>";
                                     echo "</iframe></div></main>";
                                 } else {
                                     $_SESSION['lifeId'] = $curp;
                                     echo "</nav><main role='main' class='iframe-container col-md-9 ml-sm-auto col-lg-10 px-4'>";
                                     echo "<div class='results-box style='padding-left: 15px; width: 100%; min-height: 100%'>";
-                                    echo "<iframe frameborder='0' style='padding: 15px; width: 100%; height:500%' scrolling='no' src='clienteSinCuenta.php'>";
+                                    echo "<iframe frameborder='0' style='padding: 15px; width: 100%; height:100%' scrolling='no' src='clienteSinCuenta.php'>";
                                     echo "</iframe></div></main>";
                                 }
                             }
@@ -152,21 +157,9 @@ function resultToArray($resultado)
                         
                     }
                 ?>
-        </nav>
-        </div>
-        <div class="row">
-            <nav class="col-md-2 d-none d-md-block bg-light sidebar"
-                style="border-bottom: 1px solid lightgray; border-right: 1px solid lightgray">
-                <div>
-                    <label style="padding-top: 15px; font-size: larger;">Cuentas morosas</label>
-                    <form action="inicio.php" method="POST">
-                        <button style="width:100%" type="submit" name="reporteCuentasMorosas"
-                            class="btn btn-success">Generar
-                            Reporte</button>
-                    </form>
-                </div>
             </nav>
         </div>
+    </div>
     </div>
     <div class="container-fluid">
         <section class>
