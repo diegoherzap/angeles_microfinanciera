@@ -135,9 +135,9 @@ require "dbConnection/config.php";
                                 $montoRestante = $montoEsperadoHoy - $totalPagado;
 
                                 echo "<td>" . $dinero->formatCurrency($montoRestante, "USD") . "</td>";
-                                echo "<td>" . $dinero->formatCurrency(strval($fila['total_pagado']), "USD") . "</td>";
+                                echo "<td>" . $dinero->formatCurrency($totalPagado, "USD") . "</td>";
                                 echo "<td>" . ($fila['total_de_pagos_a_realizar'] - $fila['pagos_realizados']) . "</td>";
-                                echo "<td><span style='font-style: bold; color: red;'>" . $dinero->formatCurrency(strval($fila['total_pagado']), "USD") . "</span></td>";
+                                echo "<td><span style='font-style: bold; color: red;'>" . $dinero->formatCurrency($totalPagado, "USD") . "</span></td>";
                             }
                             else{
                                 echo "<td>" . $totalDePagosARealizar . "</td>";
