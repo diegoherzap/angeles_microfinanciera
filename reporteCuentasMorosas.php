@@ -96,9 +96,9 @@ require "dbConnection/config.php";
                 "SELECT cuentas.*,
                 CAST(linea_credito * (1+(interes/100)) AS DECIMAL(9,2)) AS 'monto_total',
                 CAST(SUM(pagos.monto_del_pago) AS DECIMAL(9,2)) AS 'total_pagado',
-                CAST(COUNT(pagos.id_cuenta) AS int) AS 'pagos_realizados',
-                CAST(ROUND(DATEDIFF(CURRENT_DATE(), fecha_aprobacion)/30*periodicidad, 0) AS INT) AS 'periodos_transcurridos',
-                CAST(mensualidades * periodicidad AS INT) AS 'total_de_pagos_a_realizar',
+                CAST(COUNT(pagos.id_cuenta) AS UNSIGNED) AS 'pagos_realizados',
+                CAST(ROUND(DATEDIFF(CURRENT_DATE(), fecha_aprobacion)/30*periodicidad, 0) AS UNSIGNED) AS 'periodos_transcurridos',
+                CAST(mensualidades * periodicidad AS UNSIGNED) AS 'total_de_pagos_a_realizar',
                 IF(COUNT(pagos.id_cuenta) < ROUND(DATEDIFF(CURRENT_DATE(), fecha_aprobacion)/30*periodicidad, 0), ROUND(DATEDIFF(CURRENT_DATE(), fecha_aprobacion)/30*periodicidad, 0) - COUNT(pagos.id_cuenta), 0) as atraso
                 FROM cuentas
                 LEFT JOIN pagos
