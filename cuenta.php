@@ -84,8 +84,11 @@ date_default_timezone_set("America/Mexico_City");
         $totalAPagar = round($rowCuenta['linea_credito'] * (1 + $rowCuenta['interes'] / 100), 2);
         $montoMensual = round($totalAPagar / $rowCuenta['mensualidades'], 2);
         $montoPagoPeriodico = round(($montoMensual / $rowCuenta['periodicidad']), 2);
+        if($periodosTranscurridos > $mensualidad * $periodicidad)
+            $montoEsperadoHoy = $mensualidad * $periodicidad * $montoPagoPeriodico;
+        else $montoEsperadoHoy = $periodosTranscurridos * $montoPagoPeriodico;
         $_SESSION['montoPagoPeriodico'] = $montoPagoPeriodico;
-        $montoEsperadoHoy = round($montoPagoPeriodico * $periodosTranscurridos, 2);
+        $montoEsperadoHoy = round($montoEsperadoHoy, 2);
 
         $sqlTotalPagado = "SELECT SUM(monto_del_pago) as totalPagado, COUNT(id_cuenta) as pagosRealizados from pagos WHERE id_cuenta = '$acct'";
 

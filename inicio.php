@@ -143,13 +143,13 @@ function resultToArray($resultado)
                                     }
                                     echo "</nav><main role='main' class='iframe-container col-md-9 ml-sm-auto col-lg-10' px-4>";
                                     echo "<div style='padding-left: 15px; height: 100%'>";
-                                    echo "<iframe frameborder='0' style='padding: 15px; width: 100%; height: 100%' scrolling='no' src='cliente.php'>";
+                                    echo "<iframe frameborder='0' style='padding: 15px; width: 100%; height: 100%' scrolling='yes' src='cliente.php'>";
                                     echo "</iframe></div></main>";
                                 } else {
                                     $_SESSION['lifeId'] = $curp;
                                     echo "</nav><main role='main' class='iframe-container col-md-9 ml-sm-auto col-lg-10 px-4'>";
                                     echo "<div class='results-box style='padding-left: 15px; width: 100%; min-height: 100%'>";
-                                    echo "<iframe frameborder='0' style='padding: 15px; width: 100%; height:100%' scrolling='no' src='clienteSinCuenta.php'>";
+                                    echo "<iframe frameborder='0' style='padding: 15px; width: 100%; height:100%' scrolling='yes' src='clienteSinCuenta.php'>";
                                     echo "</iframe></div></main>";
                                 }
                             }
