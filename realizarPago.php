@@ -35,8 +35,16 @@ date_default_timezone_set("America/Mexico_City");
     <h1>Realizar Pago</h1>
     <?php
     if (isset($_POST['ejecutarPago'])) {
-        $transactionId = "TRID" . time();
+        $transactionId = "TRID" . rand(1000000000,9999999999);
         echo $transactionId;
+        $sqlCheckAvailabilityForTrId = "SELECT * FROM pagos WHERE transaction_id = '$transactionId'";
+        $trIdRows = mysqli_num_rows(mysqli_query($conn, $sqlCheckAvailabilityForTrId));
+        while($trIdRows != 0)
+        {
+            $transactionId = "TRID" . rand(1000000000,9999999999);
+            $sqlCheckAvailabilityForTrId = "SELECT * FROM pagos WHERE transaction_id = '$transactionId'";
+            $trIdRows = mysqli_num_rows(mysqli_query($conn, $sqlCheckAvailabilityForTrId));
+        }
         $sqlInsertPayment = "INSERT INTO pagos (monto_del_pago, fecha_transaccion, id_cuenta, transaction_id) VALUES
         ('$montoPagoPeriodico',CURDATE(),'$acct','$transactionId')";
         if (!mysqli_query($conn, $sqlInsertPayment)) {
