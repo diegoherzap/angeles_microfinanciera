@@ -81,12 +81,17 @@ date_default_timezone_set("America/Mexico_City");
         $diasHastaHoy = $rowDays['dayCount'];
         $mesesHastaHoy = round(($rowDays['dayCount'] / 30), 0);
         $periodosTranscurridos = round($mesesHastaHoy * $period, 0);
-        $totalAPagar = round($rowCuenta['linea_credito'] * (1 + $rowCuenta['interes'] / 100), 2);
+        $totalAPagar = $rowCuenta['linea_credito'] * (1 + $rowCuenta['interes'] / 100);
         $montoMensual = round($totalAPagar / $rowCuenta['mensualidades'], 2);
         $montoPagoPeriodico = round(($montoMensual / $rowCuenta['periodicidad']), 2);
-        if($periodosTranscurridos > $mensualidad * $periodicidad)
-            $montoEsperadoHoy = $mensualidad * $periodicidad * $montoPagoPeriodico;
-        else $montoEsperadoHoy = $periodosTranscurridos * $montoPagoPeriodico;
+        if($periodosTranscurridos > $rowCuenta['mensualidades'] * $rowCuenta['periodicidad'])
+        {
+            $montoEsperadoHoy = round($rowCuenta['mensualidades'] * $rowCuenta['periodicidad'] * $montoPagoPeriodico, 0);
+        }
+        else
+        {
+            $montoEsperadoHoy = round($periodosTranscurridos * $montoPagoPeriodico, 0);
+        }
         $_SESSION['montoPagoPeriodico'] = $montoPagoPeriodico;
         $montoEsperadoHoy = round($montoEsperadoHoy, 2);
 
@@ -97,15 +102,19 @@ date_default_timezone_set("America/Mexico_City");
         $totalPagado = $rowPagos['totalPagado'];
         $saldo = $totalAPagar - $totalPagado;
         $pagosRealizados = $rowPagos['pagosRealizados'];
+
         $pagosTotales = $rowCuenta['mensualidades'] * $rowCuenta['periodicidad'];
         $pagosFaltantes = $pagosTotales - $pagosRealizados;
-        $estatus = "";
-        if ($pagosRealizados >= $periodosTranscurridos) {
+        $pagosAtrasados;
+        //$estatus = "";
+        if ($pagosRealizados >= $periodosTranscurridos || $pagosRealizados >= $pagosFaltantes) {
             $estatus = "AL CORRIENTE";
             $saldoMoroso = 0.00;
+            $pagosAtrasados = 0;
         } else {
             $estatus = "ATRASADO";
-            $saldoMoroso = $montoEsperadoHoy - $totalPagado;
+            $saldoMoroso = round($montoEsperadoHoy - $totalPagado, 2);
+            $pagosAtrasados = $pagosTotales - $pagosRealizados;
         }
         ?>
         <table class="table-borderless table-sm table" style="font-size:small">
@@ -158,7 +167,20 @@ date_default_timezone_set("America/Mexico_City");
                         <label style="font-weight: bold">
                             Saldo
                         </label>
-                        <span> <?php echo $dinero->formatCurrency($saldo, "USD") ?></span>
+                        <?php
+                            if($saldo<0)
+                            {
+                                echo "<span style='font-weight: bold; color: green;'>";
+                                echo $dinero->formatCurrency($saldo, "USD");
+                                echo "</span>";
+                            }
+                            else
+                            {
+                                echo "<span>";
+                                echo $dinero->formatCurrency($saldo, "USD");
+                                echo "</span>";
+                            }
+                        ?>
                     </td>
                     <td>
                         <label style="font-weight: bold">
@@ -177,9 +199,9 @@ date_default_timezone_set("America/Mexico_City");
                 <tr>
                     <td>
                         <label style="font-weight: bold">
-                            Cantidad de pagos <?php echo $periodicidad ?>es requeridos hoy
+                            Cantidad de pagos <?php echo $periodicidad ?>es atrasados
                         </label>
-                        <span> <?php echo $periodosTranscurridos ?></span>
+                        <span> <?php echo $pagosAtrasados ?></span>
                     </td>
 
                     <td>
@@ -193,7 +215,20 @@ date_default_timezone_set("America/Mexico_City");
                         <label style="font-weight: bold">
                             Cantidad de pagos restantes
                         </label>
-                        <span> <?php echo $pagosFaltantes ?></span>
+                        <?php
+                            if($pagosFaltantes<=0)
+                            {
+                                echo "<span style='font-weight: bold; color: green;'>";
+                                echo $pagosFaltantes;
+                                echo "</span>";
+                            }
+                            else
+                            {
+                                echo "<span>";
+                                echo $pagosFaltantes;
+                                echo "</span>";
+                            }
+                        ?>
                     </td>
 
                 </tr>

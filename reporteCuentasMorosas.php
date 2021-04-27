@@ -16,7 +16,7 @@ require "dbConnection/config.php";
         echo $_SESSION['account'];
         ?> - Reporte de cuentas morosas - AdmiCredit2020
     </title>
-    <link rel="stylesheet" href="/html/css/style.css" />
+    <link rel="stylesheet" href="./css/style.css" />
     <script src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
@@ -66,12 +66,12 @@ require "dbConnection/config.php";
         }
         
         ?>
-    <div class="container">
+    <div style="padding: 50px;">
         <div class="row">
             <h1>Reporte de cuentas morosas</h1>
         </div>
         <div class="row">
-            <table class="col-md-12 table-bordered table-sm table">
+            <table class="col-md-12 table-bordered table">
                 <thead>
                     <tr>
                         <th># Cuenta</th>
@@ -80,49 +80,82 @@ require "dbConnection/config.php";
                         <th>Tasa de interés</th>
                         <th>Mensualidades</th>
                         <th>Periodicidad</th>
+                        <th>Monto total (Línea de crédito + tasa de interés)</th>
+                        <th>Total de pagos a realizar</th>
+                        <th>Pagos realizados</th>
+                        <th>Pagos pendientes</th>
                         <th>Monto esperado hoy</th>
                         <th>Total pagado</th>
+                        <th>Periodos vencidos</th>
                         <th>Saldo vencido</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>2407127560
-                        <td>DDBB890610HJCRPG07
-                        </td>
-                        </td>
-                        <td>$100,000.00
-                        </td>
-                        <td>12.50%
-                        </td>
-                        <td>3
-                        </td>
-                        <td>2
-                        </td>
-                        <td>$56,250.00
-                        </td>
-                        <td>$18,750.00
-                        </td>
-                        <td style="font-weight:bold">$37,500.00
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3295775538
-                        </td>
-                        <td>CURP12131415161718
-                        </td>
-                        <td>$10,000.00</td>
-                        <td>13.45%</td>
-                        <td>3</td>
-                        <td>1</td>
-                        <td>$7,563.33
-                        </td>
-                        <td>$3,781.67
+                <?php
+                $sqlCuentasMorosasQuery = 
+                "SELECT cuentas.*,
+                CAST(linea_credito * (1+(interes/100)) AS DECIMAL(9,2)) AS 'monto_total',
+                CAST(SUM(pagos.monto_del_pago) AS DECIMAL(9,2)) AS 'total_pagado',
+                CAST(COUNT(pagos.id_cuenta) AS int) AS 'pagos_realizados',
+                CAST(ROUND(DATEDIFF(CURRENT_DATE(), fecha_aprobacion)/30*periodicidad, 0) AS INT) AS 'periodos_transcurridos',
+                CAST(mensualidades * periodicidad AS INT) AS 'total_de_pagos_a_realizar',
+                IF(COUNT(pagos.id_cuenta) < ROUND(DATEDIFF(CURRENT_DATE(), fecha_aprobacion)/30*periodicidad, 0), ROUND(DATEDIFF(CURRENT_DATE(), fecha_aprobacion)/30*periodicidad, 0) - COUNT(pagos.id_cuenta), 0) as atraso
+                FROM cuentas
+                LEFT JOIN pagos
+                ON cuentas.id_cuenta = pagos.id_cuenta
+                GROUP BY cuentas.id_cuenta";
+                $sqlCuentasMorosasResult = mysqli_query($conn, $sqlCuentasMorosasQuery);
+                $sqlCuentasMorosasFilas = mysqli_num_rows($sqlCuentasMorosasResult);
+                if($sqlCuentasMorosasFilas > 0){
+                    echo "<tr>";
+                    while($fila = mysqli_fetch_assoc($sqlCuentasMorosasResult))
+                    {
+                        echo "<tr>";
+                        if($fila['pagos_realizados'] < $fila['periodos_transcurridos'] && $fila['pagos_realizados'] < $fila['total_de_pagos_a_realizar'])
+                        {
+                            $montoEsperadoHoy = $dinero->formatCurrency((strval($fila['monto_total']) /30 * $fila['periodicidad']) * (strval($fila['periodos_transcurridos'])), "USD");
+                            echo "<td>" . $fila['id_cuenta'] . "</td>";
+                            echo "<td>" . $fila['curp'] . "</td>";
+                            echo "<td>" . $dinero->formatCurrency(strval($fila['linea_credito']), "USD") . "</td>";
+                            echo "<td>" . $fila['interes'] . "%</td>";
+                            echo "<td>" . $fila['mensualidades'] . "</td>";
+                            echo "<td>" . $fila['periodicidad'] . "</td>";
+                            echo "<td>" . $dinero->formatCurrency($fila['monto_total'], "USD") . "</td>";
+                            $totalDePagosARealizar = $fila['mensualidades'] * $fila['periodicidad'];
+                            $pagosRealizados = $fila['pagos_realizados'];
+                            $totalPagado = $fila['total_pagado'];
+                            if($fila['periodos_transcurridos'] <= $fila['total_de_pagos_a_realizar'])
+                            {
+                                echo "<td>" . $totalDePagosARealizar . "</td>";
+                                echo "<td>" . $pagosRealizados . "</td>";
+                                echo "<td>" . ($totalDePagosARealizar - $fila['pagos_realizados']) . "</td>";
 
-                        </td>
-                        <td style="font-weight:bold">$3,781.67
-                        </td>
-                    </tr>
+                                $montoEsperadoHoy = strval($fila['monto_total'] / 30 * $fila['periodicidad']) * $fila['periodos_transcurridos'];
+                                
+                                $montoRestante = $montoEsperadoHoy - $totalPagado;
+
+                                echo "<td>" . $dinero->formatCurrency($montoRestante, "USD") . "</td>";
+                                echo "<td>" . $dinero->formatCurrency(strval($fila['total_pagado']), "USD") . "</td>";
+                                echo "<td>" . ($fila['total_de_pagos_a_realizar'] - $fila['pagos_realizados']) . "</td>";
+                                echo "<td><span style='font-style: bold; color: red;'>" . $dinero->formatCurrency(strval($fila['total_pagado']), "USD") . "</span></td>";
+                            }
+                            else{
+                                echo "<td>" . $totalDePagosARealizar . "</td>";
+                                echo "<td>" . $pagosRealizados . "</td>";
+                                echo "<td>" . ($totalDePagosARealizar - $fila['pagos_realizados']) . "</td>";
+                                $montoEsperadoHoy = $fila['monto_total'];
+                                $montoRestante = $montoEsperadoHoy - $totalPagado;
+                                echo "<td>" . $dinero->formatCurrency($montoRestante, "USD") . "</td>";
+                                echo "<td>" . $dinero->formatCurrency($totalPagado, "USD") . "</td>";
+                                echo "<td>" . ($fila['total_de_pagos_a_realizar'] - $fila['pagos_realizados']) . "</td>";
+                                echo "<td> <span style='font-style: bold; color: red;'>" . $dinero->formatCurrency(($montoEsperadoHoy - $fila['total_pagado']), "USD") . "</span></td>";
+                            }
+                            
+                        }
+                        echo "</tr>";
+                    }
+                }?>
+                    
                 </tbody>
             </table>
         </div>
