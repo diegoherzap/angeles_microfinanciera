@@ -49,7 +49,7 @@ if (isset($_SESSION['uid'])) {
             <!--<div class="col-md-7"></div>-->
             <!--
           Formulario de credenciales
-        -->
+        --> 
             <form class="col-md-5" method="POST" action="index.php" style='padding-top: 15px'>
                 <div class="credenciales input-box">
                     <label class="h4 mb-3" for="" style="color:white;">Iniciar sesión</label>
@@ -60,7 +60,7 @@ if (isset($_SESSION['uid'])) {
                     <button class="btn btn-primary" name="enviar" style="width: 100%" type="submit"
                         value="Enviar">Entrar</button>
                     <span>
-                        <a href="./recuperar-contrasena.html">¿Olvidaste tu contraseña?</a>
+                        <a href="recuperar-contrasena.html">¿Olvidaste tu contraseña?</a>
                     </span>
                 </div>
             </form>
