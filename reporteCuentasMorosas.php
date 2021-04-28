@@ -66,7 +66,7 @@ require "dbConnection/config.php";
         }
         
         ?>
-    <div style="padding: 50px;">
+    <div style="padding: 30px;" width="100%" class="container-fluid">
         <div class="row">
             <h1>Reporte de cuentas morosas</h1>
         </div>
@@ -76,17 +76,16 @@ require "dbConnection/config.php";
                     <tr>
                         <th># Cuenta</th>
                         <th>CURP</th>
-                        <th>Línea de Crédito</th>
-                        <th>Tasa de interés</th>
-                        <th>Mensualidades</th>
-                        <th>Periodicidad</th>
-                        <th>Monto total (Línea de crédito + tasa de interés)</th>
-                        <th>Total de pagos a realizar</th>
+                        <th>L. de Crédito</th>
+                        <th>Interés</th>
+                        <th>Mens.</th>
+                        <th>Period.</th>
+                        <th>Costo total</th>
+                        <th>Pagos a realizar</th>
                         <th>Pagos realizados</th>
-                        <th>Pagos pendientes</th>
-                        <th>Monto esperado hoy</th>
+                        <th>Pagos vencidos</th>
+                        <th>Saldo al día</th>
                         <th>Total pagado</th>
-                        <th>Periodos vencidos</th>
                         <th>Saldo vencido</th>
                     </tr>
                 </thead>
@@ -113,7 +112,7 @@ require "dbConnection/config.php";
                         echo "<tr>";
                         if($fila['pagos_realizados'] < $fila['periodos_transcurridos'] && $fila['pagos_realizados'] < $fila['total_de_pagos_a_realizar'])
                         {
-                            $montoEsperadoHoy = $dinero->formatCurrency((strval($fila['monto_total']) /30 * $fila['periodicidad']) * (strval($fila['periodos_transcurridos'])), "USD");
+                            //$montoEsperadoHoy = $dinero->formatCurrency(($fila['monto_total'] / 30) * $fila['periodicidad'] * $fila['periodos_transcurridos'], "USD");
                             echo "<td>" . $fila['id_cuenta'] . "</td>";
                             echo "<td>" . $fila['curp'] . "</td>";
                             echo "<td>" . $dinero->formatCurrency(strval($fila['linea_credito']), "USD") . "</td>";
@@ -124,20 +123,20 @@ require "dbConnection/config.php";
                             $totalDePagosARealizar = $fila['mensualidades'] * $fila['periodicidad'];
                             $pagosRealizados = $fila['pagos_realizados'];
                             $totalPagado = $fila['total_pagado'];
+                            $periodosTranscurridos = $fila['periodos_transcurridos'];
                             if($fila['periodos_transcurridos'] <= $fila['total_de_pagos_a_realizar'])
                             {
                                 echo "<td>" . $totalDePagosARealizar . "</td>";
                                 echo "<td>" . $pagosRealizados . "</td>";
-                                echo "<td>" . ($totalDePagosARealizar - $fila['pagos_realizados']) . "</td>";
+                                echo "<td>" . ($periodosTranscurridos - $fila['pagos_realizados']) . "</td>";
 
-                                $montoEsperadoHoy = strval($fila['monto_total'] / 30 * $fila['periodicidad']) * $fila['periodos_transcurridos'];
+                                $montoEsperadoHoy = $fila['monto_total'] / ($fila['mensualidades'] * $fila['periodicidad']) * $fila['periodos_transcurridos'];
                                 
                                 $montoRestante = $montoEsperadoHoy - $totalPagado;
 
                                 echo "<td>" . $dinero->formatCurrency($montoRestante, "USD") . "</td>";
                                 echo "<td>" . $dinero->formatCurrency($totalPagado, "USD") . "</td>";
-                                echo "<td>" . ($fila['total_de_pagos_a_realizar'] - $fila['pagos_realizados']) . "</td>";
-                                echo "<td><span style='font-style: bold; color: red;'>" . $dinero->formatCurrency($totalPagado, "USD") . "</span></td>";
+                                echo "<td><span style='font-weight: bold; color: red;'>" . $dinero->formatCurrency(($montoEsperadoHoy - $fila['total_pagado']), "USD") . "</span></td>";
                             }
                             else{
                                 echo "<td>" . $totalDePagosARealizar . "</td>";
@@ -147,8 +146,7 @@ require "dbConnection/config.php";
                                 $montoRestante = $montoEsperadoHoy - $totalPagado;
                                 echo "<td>" . $dinero->formatCurrency($montoRestante, "USD") . "</td>";
                                 echo "<td>" . $dinero->formatCurrency($totalPagado, "USD") . "</td>";
-                                echo "<td>" . ($fila['total_de_pagos_a_realizar'] - $fila['pagos_realizados']) . "</td>";
-                                echo "<td> <span style='font-style: bold; color: red;'>" . $dinero->formatCurrency(($montoEsperadoHoy - $fila['total_pagado']), "USD") . "</span></td>";
+                                echo "<td> <span style='font-weight: bold; color: red;'>" . $dinero->formatCurrency(($montoEsperadoHoy - $fila['total_pagado']), "USD") . "</span></td>";
                             }
                             
                         }
